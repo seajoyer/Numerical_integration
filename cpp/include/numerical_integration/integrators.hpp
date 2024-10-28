@@ -6,7 +6,7 @@
 
 namespace numerical_integration {
 
-inline double rectangle_method(std::function<double(double)> f,
+inline double rectangle_method_left(std::function<double(double)> f,
                                   double a, double b, int n) {
     double h = (b - a) / n;
     double sum = 0.0;
@@ -18,6 +18,33 @@ inline double rectangle_method(std::function<double(double)> f,
 
     return h * sum;
 }
+
+inline double rectangle_method_mid(std::function<double(double)> f,
+                                  double a, double b, int n) {
+    double h = (b - a) / n;
+    double sum = 0.0;
+
+    for (int i = 0; i < n; ++i) {
+        double x = a + h/2 + i * h;
+        sum += f(x);
+    }
+
+    return h * sum;
+}
+
+inline double rectangle_method_right(std::function<double(double)> f,
+                                  double a, double b, int n) {
+    double h = (b - a) / n;
+    double sum = 0.0;
+
+    for (int i = 0; i < n; ++i) {
+        double x = a + h + i * h;
+        sum += f(x);
+    }
+
+    return h * sum;
+}
+
 
 inline double trapezoid_method(std::function<double(double)> f,
                                   double a, double b, int n) {
@@ -59,13 +86,17 @@ inline void calculate_errors(std::function<double(double)> f,
     for (int n : grid_sizes) {
         double h = (b - a) / n;
 
-        double rect_error = std::abs(rectangle_method(f, a, b, n) - exact_value);
+        double rect_error_left  = std::abs(rectangle_method_left(f, a, b, n) - exact_value);
+        double rect_error_mid   = std::abs(rectangle_method_mid(f, a, b, n) - exact_value);
+        double rect_error_right = std::abs(rectangle_method_right(f, a, b, n) - exact_value);
         double trap_error = std::abs(trapezoid_method(f, a, b, n) - exact_value);
         double simp_error = std::abs(simpson_method(f, a, b, n) - exact_value);
 
         out << n << " "
             << h << " "
-            << rect_error << " "
+            << rect_error_left << " "
+            << rect_error_mid << " "
+            << rect_error_right << " "
             << trap_error << " "
             << simp_error << "\n";
     }
