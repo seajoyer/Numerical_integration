@@ -1,0 +1,107 @@
+* Homework on Numerical Integration
+
+This project implements Numerical Integration in C++ and Python, providing such functionality:
+
+- Rectangle method (left, right and mid rectangles)
+- Trapezoid method
+- Simpson method
+
+An example for a function:
+
+$$
+f(x) = \sqrt{2-x^2}, \quad x \in [0, 1]
+$$
+
+Project includes error analysis for different step sizes and visualization of convergence rates.
+
+** Navigation
+- [[#building-c][Building C++]]
+  - [[#for-nix-users][For Nix users]]
+  - [[#manually][Manually]]
+- [[#running-python][Running Python]]
+  - [[#for-nix-users-1][For Nix users]]
+  - [[#manually-1][Manually]]
+
+** Building C++
+
+*** For Nix users
+
+This project comes with a flake, for those lucky Nix users to build and run the C++ implementation it's enough to execute:
+#+begin_src shell
+nix run github:seajoyer/Numerical_integration#cpp --impure
+#+end_src shell
+Replace ~#cpp~ with ~#py~ to run the Python program.
+
+You can also start an isolated development shell with all the dependencies by simply running:
+#+begin_src shell
+nix develop github:seajoyer/Numerical_integration#cpp
+#+end_src shell
+
+*** Manually
+
+**** Prerequisites
+
+First, install dependencies, this is done differently in different systems:
+
+- [[https://gcc.gnu.org/][g++]] compiler
+- [[https://cmake.org/download/][CMake]] build system
+- [[https://www.gnu.org/software/make/#download][Make]] build system
+- [[http://www.gnuplot.info/download.html][Gnuplot]] plotting program
+
+**** Building & Running
+
+1. Clone the repository:
+   #+begin_src shell
+   git clone https://github.com/seajoyer/Numerical_integration
+   cd Numerical_integration/cpp
+   #+end_src shell
+2. And once you are ready:
+   #+begin_src shell
+   mkdir -p build
+   cd build
+   cmake .. ; make
+   ./numerical_integration_example
+   #+end_src
+
+The program will:
+1. Calculate the exact value of the integral
+2. Compute numerical approximations using different methods
+3. Generate error analysis data
+4. Create a plot comparing the convergence rates (error_comparison.png)
+
+** Running Python
+
+*** For Nix users
+
+To run the python program, execute:
+
+#+begin_src shell
+nix run github:seajoyer/Numerical_integration#py --impure
+#+end_src shell
+
+To enter the isolated development shell with installed Python and necessary libs:
+#+begin_src shell
+nix develop https://github.com/seajoyer/Numerical_integration
+#+end_src shell
+
+*** Manually
+
+**** Prerequisites
+
+- Python itself
+- NumPy library
+- Matplotlib library
+
+Install them to your system.
+
+**** Running
+
+1. Clone the repo if haven't yet
+   #+begin_src shell
+   git clone https://github.com/seajoyer/Numerical_integration
+   cd Numerical_integration/py
+   #+end_src shell
+2. Then just execute:
+   #+begin_src shell
+   python3 demo.py
+   #+end_src shell
